@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Record</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">
+            <img src="{{ url_for('static', filename='images/icon.png') }}" alt="Weather Icon" class="header-icon">
+            Edit Weather Entry
+        </h1>
+
+        <form method="post" class="update-form fade-in">
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" value="{{ record.location }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="text" value="{{ record.date }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="temperature">Temperature (°C):</label>
+                <input type="number" step="0.1" name="temperature" id="temperature" value="{{ record.temperature }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="condition">Condition:</label>
+                <input type="text" name="condition" id="condition" value="{{ record.condition }}" required>
+            </div>
+
+            <button type="submit">Save Changes</button>
+            <a href="{{ url_for('index') }}" class="cancel-link">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

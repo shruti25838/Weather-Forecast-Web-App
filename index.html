@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">
+            <img src="{{ url_for('static', filename='images/icon.png') }}" alt="Weather Icon" class="header-icon">
+            Weather App
+        </h1>
+
+        <!-- Weather Form -->
+        <form method="post" id="weatherForm" class="weather-form">
+            <input type="text" name="location" id="locationInput" placeholder="Enter City or Zip Code" required>
+            <button type="submit" name="search">Get Weather</button>
+            <button type="button" onclick="getLocation()">Use My Location</button>
+        </form>
+
+        <!-- Weather Info -->
+        {% if weather %}
+            {% if weather.error %}
+                <p class="error">{{ weather.error }}</p>
+            {% else %}
+                <div class="weather-card fade-in">
+                    <h2>{{ weather.location }}</h2>
+                    <img class="weather-icon" src="{{ weather.icon }}" alt="Weather Icon">
+                    <p class="temp">{{ weather.temperature }}°C</p>
+                    <p class="desc">{{ weather.description }}</p>
+                </div>
+
+                <h3 class="forecast-title">5-Day Forecast</h3>
+                <div class="forecast-container">
+                    {% for day in weather.forecast %}
+                        <div class="forecast-card">
+                            <p><strong>{{ day.date }}</strong></p>
+                            <img src="{{ day.icon }}" alt="Icon">
+                            <p>{{ day.avg_temp }}°C</p>
+                            <p>{{ day.condition }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- YouTube Weather Videos -->
+        {% if videos %}
+            <h3 class="forecast-title">Weather-Related Videos</h3>
+            <div class="forecast-container">
+                {% for video in videos %}
+                    <div class="forecast-card">
+                        <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank">
+                            <img src="{{ video.thumbnail }}" alt="{{ video.title }}" style="width:100%; border-radius: 8px;">
+                            <p>{{ video.title }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Save Weather Section -->
+        <div class="save-section">
+            <h3>Save Weather Data</h3>
+            <form method="post" class="save-form">
+                <input type="text" name="save_location" placeholder="Enter Location to Save" required>
+                <input type="date" name="start_date" required>
+                <input type="date" name="end_date" required>
+                <button type="submit" name="save">Save Forecast</button>
+            </form>
+        </div>
+
+        <!-- Saved Records Section -->
+        <div class="records-section">
+            <h3 class="forecast-title">Saved Records</h3>
+            <div class="forecast-container">
+                {% for rec in records %}
+                    <div class="forecast-card">
+                        <p><strong>{{ rec.location }}</strong> - {{ rec.date }}</p>
+                        <p>{{ rec.temperature }}°C, {{ rec.condition }}</p>
+                        <div class="record-actions">
+                            <a href="{{ url_for('update', id=rec.id) }}">Edit</a>
+                            <a href="{{ url_for('delete', id=rec.id) }}" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="export-buttons">
+            <a href="{{ url_for('export_json') }}" class="export-button">⬇ Export as JSON</a>
+            <a href="{{ url_for('export_csv') }}" class="export-button">⬇ Export as CSV</a>
+            <a href="{{ url_for('export_pdf') }}" class="export-button">⬇ Export as PDF</a>
+        </div>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const locationInput = document.getElementById("locationInput");
+            locationInput.value = lat + "," + lon;
+            document.getElementById("weatherForm").submit();
+        }
+
+        function showError(error) {
+            alert("Error getting location: " + error.message);
+        }
+    </script>
+</body>
+</html>
