@@ -43,17 +43,19 @@ pip install -r requirements.txt
     b. Go to https://www.weatherapi.com/
     c. Sign up and copy your API key
     d. Replace it in app.py:
-API_KEY = "your_weatherapi_key"
+    e. API_KEY = "your_weatherapi_key"
 
-YouTube Data API Key
+### 4.  YouTube Data API Key
     a. Go to https://console.cloud.google.com/
     b. Create a new project
     c. Enable YouTube Data API v3
     d. Go to Credentials → Create API Key
     e. Replace it in app.py:
-YOUTUBE_API_KEY = "your_youtube_api_key"
+    f. YOUTUBE_API_KEY = "your_youtube_api_key"
 
 ### 4. Run the App
 python app.py
+
 Then open your browser and go to:
+
 http://127.0.0.1:5000/
