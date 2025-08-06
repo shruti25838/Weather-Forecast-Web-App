@@ -9,8 +9,8 @@ from reportlab.pdfgen import canvas
 from googleapiclient.discovery import build
 
 app = Flask(__name__)
-YOUTUBE_API_KEY = "AIzaSyA0X5wLQIDrHZwcKV6BDGaaU-l2rwts6oo"  # Replace with your API
-API_KEY = "7df2bc3acc83410185991151250408"  # Replace with your WeatherAPI key
+YOUTUBE_API_KEY = " "  # Replace with your API
+API_KEY = " "  # Replace with your WeatherAPI key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -162,3 +162,4 @@ def export_pdf():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
